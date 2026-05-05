@@ -23,7 +23,7 @@
             flex-direction: column;
         }
 
-        /* Katmanlı Yıldız Alanı (Derinlik Efekti) */
+        /* Arka Plan Yıldız Animasyonu */
         .space-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,9 +38,9 @@
             background-image: 
                 radial-gradient(1px 1px at 10% 10%, #fff, transparent),
                 radial-gradient(1px 1px at 20% 50%, #fff, transparent),
-                radial-gradient(2px 2px at 40% 80%, #00d4ff, transparent),
+                radial-gradient(2px 2px at 40% 80%, var(--neon-blue), transparent),
                 radial-gradient(1px 1px at 60% 20%, #fff, transparent),
-                radial-gradient(2px 2px at 80% 40%, #ff0055, transparent);
+                radial-gradient(2px 2px at 80% 40%, var(--neon-pink), transparent);
             background-size: 300px 300px;
             animation: spaceDrive 120s linear infinite;
             opacity: 0.6;
@@ -51,7 +51,6 @@
             to { transform: translate(-150px, -300px); }
         }
 
-        /* Üst Başlık */
         header {
             text-align: center;
             padding: 60px 20px 20px;
@@ -75,9 +74,9 @@
             letter-spacing: 2px;
             margin-top: 15px;
             opacity: 0.8;
+            min-height: 1.2em;
         }
 
-        /* Ana Panel */
         .main-content {
             max-width: 700px;
             margin: 0 auto;
@@ -100,25 +99,29 @@
         section:hover {
             border-color: var(--neon-blue);
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-top: 0;
             color: var(--neon-blue);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* İnput ve Butonlar */
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
         input {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             padding: 12px;
             border-radius: 10px;
-            width: calc(100% - 100px);
+            flex: 1;
             outline: none;
         }
 
@@ -126,46 +129,58 @@
             background: transparent;
             color: #fff;
             border: 1px solid var(--neon-blue);
-            padding: 12px 20px;
+            padding: 10px 20px;
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         button:hover {
             background: var(--neon-blue);
-            box-shadow: 0 0 20px var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
             color: #000;
         }
 
-        /* Zamanlayıcı Ekranı */
         #timerDisplay {
             font-family: 'Courier New', Courier, monospace;
             font-size: 3.5rem;
             text-align: center;
             color: var(--neon-pink);
             text-shadow: 0 0 20px var(--neon-pink);
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
-        /* Liste Öğeleri */
         ul { list-style: none; padding: 0; }
         li {
             background: rgba(255, 255, 255, 0.03);
             margin: 10px 0;
-            padding: 15px;
+            padding: 12px 15px;
             border-radius: 10px;
             display: flex;
             align-items: center;
-            animation: slideIn 0.5s ease-out;
+            justify-content: space-between;
+            animation: slideIn 0.4s ease-out;
+            border-left: 3px solid var(--neon-blue);
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
+            from { opacity: 0; transform: translateX(-15px); }
             to { opacity: 1; transform: translateX(0); }
+        }
+
+        .delete-btn {
+            border-color: var(--neon-pink) !important;
+            color: var(--neon-pink) !important;
+            padding: 5px 10px !important;
+            font-size: 0.65rem !important;
+        }
+
+        .delete-btn:hover {
+            background: var(--neon-pink) !important;
+            color: #fff !important;
         }
     </style>
 </head>
@@ -182,8 +197,8 @@
     <div class="main-content">
         <section>
             <h2>Görev Üssü</h2>
-            <div style="display: flex; gap: 10px;">
-                <input id="taskInput" placeholder="Sıradaki görevin nedir?" />
+            <div class="input-group">
+                <input id="taskInput" placeholder="Sıradaki görevin nedir?" onkeypress="if(event.key==='Enter') addTask()"/>
                 <button onclick="addTask()">Aktar</button>
             </div>
             <ul id="taskList"></ul>
@@ -193,15 +208,17 @@
             <h2>Hiper-Zamanlayıcı</h2>
             <div style="text-align: center;">
                 <div id="timerDisplay">25:00</div>
-                <input id="timerMinutes" type="number" value="25" style="width: 60px; text-align: center;"/>
-                <button onclick="startTimer()">Geri Sayımı Başlat</button>
+                <div style="display: flex; justify-content: center; gap: 10px; align-items: center;">
+                    <input id="timerMinutes" type="number" value="25" style="width: 60px; text-align: center;"/>
+                    <button onclick="startTimer()">Başlat</button>
+                </div>
             </div>
         </section>
 
         <section>
             <h2>Veri Analizi</h2>
             <button onclick="analyzeDay()" style="width: 100%;">Günü Raporla</button>
-            <div id="analysisResult" style="margin-top:20px; font-size: 0.9rem; color: #aaa;"></div>
+            <div id="analysisResult" style="margin-top:15px; font-size: 0.85rem; color: #aaa; line-height: 1.5;"></div>
         </section>
     </div>
 
@@ -214,28 +231,70 @@
             "Odaklanma, en büyük süper gücündür."
         ];
 
-        document.getElementById("quoteDisplay").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+        window.onload = () => {
+            document.getElementById("quoteDisplay").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            loadTasks();
+        };
 
         function addTask() {
             const inp = document.getElementById("taskInput");
-            if (!inp.value) return;
-            const li = document.createElement("li");
-            li.innerHTML = `<span style="color:var(--neon-blue); margin-right:10px;">◈</span> ${inp.value}`;
-            document.getElementById("taskList").appendChild(li);
+            if (!inp.value.trim()) return;
+            
+            const taskText = inp.value.trim();
+            saveTaskToLocal(taskText);
+            renderTask(taskText);
             inp.value = "";
+        }
+
+        function renderTask(text) {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <div style="display:flex; align-items:center;">
+                    <span style="color:var(--neon-blue); margin-right:12px;">◈</span> 
+                    <span>${text}</span>
+                </div>
+                <button class="delete-btn" onclick="removeTask(this)">SİL</button>
+            `;
+            document.getElementById("taskList").appendChild(li);
+        }
+
+        function saveTaskToLocal(task) {
+            let tasks = localStorage.getItem("spaceTasks") ? JSON.parse(localStorage.getItem("spaceTasks")) : [];
+            tasks.push(task);
+            localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+        }
+
+        function loadTasks() {
+            let tasks = localStorage.getItem("spaceTasks") ? JSON.parse(localStorage.getItem("spaceTasks")) : [];
+            tasks.forEach(task => renderTask(task));
+        }
+
+        function removeTask(btn) {
+            const li = btn.parentElement;
+            const text = li.querySelector("span:nth-child(2)").innerText;
+            li.style.opacity = '0';
+            setTimeout(() => {
+                li.remove();
+                let tasks = JSON.parse(localStorage.getItem("spaceTasks"));
+                tasks = tasks.filter(t => t !== text);
+                localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+            }, 300);
         }
 
         let timerInterval;
         function startTimer() {
             clearInterval(timerInterval);
             let mins = parseInt(document.getElementById("timerMinutes").value);
+            if(isNaN(mins) || mins <= 0) return;
             let secs = mins * 60;
+            
             timerInterval = setInterval(() => {
                 secs--;
                 const m = Math.floor(secs / 60);
                 const s = secs % 60;
                 document.getElementById("timerDisplay").innerText = 
                     (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                
                 if (secs <= 0) {
                     clearInterval(timerInterval);
                     alert("Görev Süresi Tamamlandı!");
@@ -247,8 +306,8 @@
             const tasks = document.getElementById("taskList").children.length;
             const res = document.getElementById("analysisResult");
             res.innerHTML = `
-                <p>🚀 <strong>Sistem Notu:</strong> Bugün sisteme <strong>${tasks}</strong> veri girişi yapıldı.</p>
-                <p>💡 Bu tempoyla devam edersen, kişisel üretkenlik katsayın standartların üzerine çıkacak.</p>
+                <p>🚀 <strong>Sistem Durumu:</strong> Şu an aktif <strong>${tasks}</strong> görev yörüngede bekliyor.</p>
+                <p>✨ <strong>Tavsiye:</strong> Küçük adımlar, ışık yılı mesafeleri aşmanın tek yoludur. Bugün harika iş çıkardın!</p>
             `;
         }
     </script>
