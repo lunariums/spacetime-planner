@@ -1,47 +1,184 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>SpaceTime Planner</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceTime Planner</title>
+    <style>
+        /* CSS: Görünüm ve Animasyonlar */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Hareketli Yıldızlar */
+        .background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: transparent;
+            box-shadow: 10vw 10vh #fff, 25vw 45vh #fff, 50vw 20vh #fff, 75vw 80vh #fff, 90vw 30vh #fff, 40vw 60vh #fff, 15vw 85vh #fff;
+            animation: moveStars 100s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00d4ff;
+            margin: 0;
+            letter-spacing: 3px;
+        }
+
+        .quote {
+            color: #00d4ff;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+
+        button {
+            background: transparent;
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #00d4ff;
+            color: #000;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #333;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        #timerDisplay {
+            font-size: 2rem;
+            color: #ff0055;
+            text-shadow: 0 0 10px #ff0055;
+        }
+
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    </style>
 </head>
-
 <body>
-  <div class="background"></div>
+    <div class="background"></div>
 
-  <header>
-    <h1>SpaceTime Planner</h1>
-    <p class="quote"></p>
-  </header>
+    <header>
+        <h1>SpaceTime Planner</h1>
+        <p class="quote" id="quoteDisplay"></p>
+    </header>
 
-  <section class="views">
-    <button onclick="setView('day')">Günlük</button>
-    <button onclick="setView('week')">Haftalık</button>
-    <button onclick="setView('month')">Aylık</button>
-  </section>
+    <div class="container">
+        <section class="todo">
+            <h2>To‑Do List</h2>
+            <input id="taskInput" placeholder="Görev ekle..." />
+            <button onclick="addTask()">Ekle</button>
+            <ul id="taskList"></ul>
+        </section>
 
-  <section id="calendar"></section>
+        <section class="timer">
+            <h2>Zamanlayıcı</h2>
+            <input id="timerMinutes" type="number" value="25" style="width: 50px;"/> dakika 
+            <button onclick="startTimer()">Başlat</button>
+            <p id="timerDisplay">00:00</p>
+        </section>
 
-  <section class="todo">
-      <h2>To‑Do List</h2>
-      <input id="taskInput" placeholder="Görev ekle..." />
-      <button onclick="addTask()">Ekle</button>
-      <ul id="taskList"></ul>
-  </section>
+        <section class="analysis">
+            <button onclick="analyzeDay()">Günü Analiz Et</button>
+            <div id="analysisResult" style="margin-top:15px; line-height: 1.6;"></div>
+        </section>
+    </div>
 
-  <section class="timer">
-      <h2>Zamanlayıcı</h2>
-      <input id="timerMinutes" type="number" value="25" /> dakika
-      <button onclick="startTimer()">Başlat</button>
-      <p id="timerDisplay"></p>
-  </section>
+    <script>
+        /* JavaScript: Fonksiyonlar */
+        const quotes = [
+            "Kendini bilen, evreni bilir.",
+            "Zaman, en büyük öğretmendir.",
+            "Küçük adımlar büyük yollar açar.",
+            "Düşünmek, insanın gizli gücüdür.",
+            "Kainatın sırrı sabırdır."
+        ];
 
-  <section class="analysis">
-      <button onclick="analyzeDay()">Günü Analiz Et</button>
-      <div id="analysisResult"></div>
-  </section>
+        document.getElementById("quoteDisplay").innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
-  <script src="quotes.js"></script>
-  <script src="app.js"></script>
+        function addTask() {
+            const inp = document.getElementById("taskInput");
+            if (!inp.value) return;
+            const li = document.createElement("li");
+            li.textContent = "🚀 " + inp.value;
+            document.getElementById("taskList").appendChild(li);
+            inp.value = "";
+        }
+
+        let timerInterval;
+        function startTimer() {
+            clearInterval(timerInterval);
+            let mins = parseInt(document.getElementById("timerMinutes").value);
+            let secs = mins * 60;
+            timerInterval = setInterval(() => {
+                secs--;
+                const m = Math.floor(secs / 60);
+                const s = secs % 60;
+                document.getElementById("timerDisplay").innerText = 
+                    (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                if (secs <= 0) clearInterval(timerInterval);
+            }, 1000);
+        }
+
+        function analyzeDay() {
+            const tasks = document.getElementById("taskList").children.length;
+            const result = `
+                Bugün ${tasks} görev kaydettin. <br>
+                ✨ <b>Analiz:</b> Disiplinli ilerliyorsun. Bu hızla devam edersen planlama becerilerin bir ay içinde %40 gelişecektir!
+            `;
+            document.getElementById("analysisResult").innerHTML = result;
+        }
+    </script>
 </body>
 </html>
