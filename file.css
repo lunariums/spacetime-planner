@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  background-color: #000;
+}
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url("assets/backgrounds/space.jpg") center/cover no-repeat;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+}
+
+.views button {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid #444;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+#calendar {
+  padding: 20px;
+}
+
+.todo, .timer, .analysis {
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  margin: 20px;
+  border-radius: 8px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}

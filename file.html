@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>SpaceTime Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="background"></div>
+
+  <header>
+    <h1>SpaceTime Planner</h1>
+    <p class="quote"></p>
+  </header>
+
+  <section class="views">
+    <button onclick="setView('day')">Günlük</button>
+    <button onclick="setView('week')">Haftalık</button>
+    <button onclick="setView('month')">Aylık</button>
+  </section>
+
+  <section id="calendar"></section>
+
+  <section class="todo">
+      <h2>To‑Do List</h2>
+      <input id="taskInput" placeholder="Görev ekle..." />
+      <button onclick="addTask()">Ekle</button>
+      <ul id="taskList"></ul>
+  </section>
+
+  <section class="timer">
+      <h2>Zamanlayıcı</h2>
+      <input id="timerMinutes" type="number" value="25" /> dakika
+      <button onclick="startTimer()">Başlat</button>
+      <p id="timerDisplay"></p>
+  </section>
+
+  <section class="analysis">
+      <button onclick="analyzeDay()">Günü Analiz Et</button>
+      <div id="analysisResult"></div>
+  </section>
+
+  <script src="quotes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
