@@ -1,45 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 body {
   margin: 0;
   font-family: 'Orbitron', sans-serif;
   color: #fff;
-  background-color: #000;
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* Hareket Eden Yıldız Efekti */
 .background {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: url("assets/backgrounds/space.jpg") center/cover no-repeat;
-  opacity: 0.25;
   z-index: -1;
+  background: transparent;
+  /* CSS ile yapay yıldızlar oluşturuyoruz */
+  box-shadow: 400px 200px #FFF, 800px 400px #FFF, 1200px 600px #FFF, 200px 800px #FFF, 1600px 200px #FFF;
+  animation: spaceMove 100s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes spaceMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2000px); }
 }
 
 header {
   text-align: center;
-  padding: 20px;
+  padding: 50px 20px;
+  animation: fadeIn 2s ease-in;
 }
 
-.views button {
-  background: rgba(255,255,255,0.1);
-  color: white;
-  border: 1px solid #444;
-  padding: 10px 20px;
-  margin: 5px;
+h1 {
+  font-size: 3rem;
+  text-shadow: 0 0 20px #00d4ff;
+  letter-spacing: 5px;
+  margin-bottom: 10px;
+}
+
+.quote {
+  font-style: italic;
+  color: #00d4ff;
+  min-height: 24px;
+}
+
+/* Butonlara Parlama ve Hareket Efekti */
+button {
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  border: 1px solid #00d4ff;
+  padding: 12px 25px;
+  margin: 10px;
   cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
 }
 
-#calendar {
-  padding: 20px;
+button:hover {
+  background: #00d4ff;
+  color: #000;
+  box-shadow: 0 0 20px #00d4ff;
+  transform: scale(1.05);
 }
 
 .todo, .timer, .analysis {
-  padding: 20px;
-  background: rgba(255,255,255,0.05);
-  margin: 20px;
-  border-radius: 8px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px); /* Cam efekti */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideUp 1s ease-out;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Animasyon Tanımları */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#timerDisplay {
+  font-size: 2.5rem;
+  color: #ff0055;
+  text-shadow: 0 0 15px #ff0055;
+  margin-top: 15px;
 }
