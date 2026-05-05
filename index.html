@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpaceTime Planner Pro - Celestial Edition</title>
+    <title>SpaceTime Planner Pro - Data Analytics</title>
     <style>
         :root {
             --space-bg: #05070a;
@@ -14,125 +14,60 @@
         }
 
         body {
-            margin: 0;
-            background-color: var(--space-bg);
-            color: #fff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin: 0; background-color: var(--space-bg); color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif; min-height: 100vh;
+            overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
         }
 
         /* --- CELESTIAL BACKGROUND --- */
-        .universe {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #1b2735 0%, #05070a 100%);
-            overflow: hidden;
-        }
-
-        /* Kara Delik */
+        .universe { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1b2735 0%, #05070a 100%); overflow: hidden; }
         .black-hole {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 300px; height: 300px;
-            background: #000;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 60px 30px #fff, 0 0 100px 60px var(--neon-purple), 0 0 140px 90px var(--neon-blue);
+            position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; background: #000; border-radius: 50%;
+            transform: translate(-50%, -50%); box-shadow: 0 0 60px 30px #fff, 0 0 100px 60px var(--neon-purple), 0 0 140px 90px var(--neon-blue);
             animation: pulse 8s infinite alternate;
         }
-
-        /* Gezegenler */
-        .planet {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: float 20s infinite linear;
-        }
-
-        .p1 { width: 40px; height: 40px; background: coral; top: 20%; left: 10%; box-shadow: inset -10px -10px 20px #000; }
-        .p2 { width: 80px; height: 80px; background: steelblue; bottom: 15%; right: 10%; box-shadow: inset -15px -15px 30px #000; animation-duration: 35s; }
-
-        @keyframes pulse {
-            from { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-        }
-
-        @keyframes float {
-            from { transform: translateY(0) rotate(0deg); }
-            to { transform: translateY(-100vh) rotate(360deg); }
-        }
+        @keyframes pulse { from { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } to { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
 
         /* --- CONTENT UI --- */
         header { text-align: center; padding: 40px 0; z-index: 10; }
         h1 { font-size: 3.5rem; letter-spacing: 10px; margin: 0; background: linear-gradient(to bottom, #fff, var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px var(--neon-blue)); }
 
-        .container { width: 90%; max-width: 650px; z-index: 10; padding-bottom: 50px; }
-
-        section {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
+        .container { width: 90%; max-width: 700px; z-index: 10; padding-bottom: 50px; }
+        section { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { color: var(--neon-blue); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; margin-top: 0; }
 
         /* Timer */
         #timerDisplay { font-family: 'Courier New', monospace; font-size: 5rem; text-align: center; color: var(--neon-pink); text-shadow: 0 0 25px var(--neon-pink); margin: 20px 0; }
-        .controls { display: flex; justify-content: center; gap: 15px; }
-
-        /* Music Grid */
-        .music-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;}
         
+        /* Analytics Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+        .stat-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid rgba(0,212,255,0.1); }
+        .stat-val { display: block; font-size: 1.5rem; color: var(--neon-blue); font-weight: bold; }
+        .stat-label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; }
+
         /* Forms & Buttons */
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
         input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px; border-radius: 12px; flex: 1; outline: none; }
-        
-        button { 
-            background: transparent; color: #fff; border: 1px solid var(--neon-blue); 
-            padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; 
-            transition: 0.3s; font-size: 0.8rem; text-transform: uppercase;
-        }
+        button { background: transparent; color: #fff; border: 1px solid var(--neon-blue); padding: 10px 15px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.7rem; }
         button:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 20px var(--neon-blue); }
-        button.active { background: var(--neon-blue); color: #000; }
         button.pause-mode { border-color: var(--neon-pink); color: var(--neon-pink); }
-        button.pause-mode:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 20px var(--neon-pink); }
+        button.active { background: var(--neon-blue); color: #000; }
 
         /* Task List */
         ul { list-style: none; padding: 0; }
-        li { 
-            background: rgba(255,255,255,0.03); margin: 12px 0; padding: 15px; 
-            border-radius: 15px; display: flex; align-items: center; justify-content: space-between;
-            border-left: 4px solid var(--neon-blue); transition: 0.4s;
-        }
-        li.completed { opacity: 0.4; border-left-color: #555; filter: grayscale(1); }
+        li { background: rgba(255,255,255,0.03); margin: 12px 0; padding: 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--neon-blue); transition: 0.4s; }
+        li.completed { opacity: 0.4; border-left-color: #555; }
         li.completed .task-text { text-decoration: line-through; }
         .task-content { flex: 1; cursor: pointer; display: flex; align-items: center; }
-        .check-icon { margin-right: 15px; font-size: 1.2rem; color: var(--neon-blue); }
-
-        .delete-btn { border: none; color: #ff4d4d; font-size: 0.7rem; background: none; }
-        .delete-btn:hover { background: none; color: #fff; box-shadow: none; text-shadow: 0 0 10px #ff4d4d; }
+        .delete-btn { border: none; color: #ff4d4d; font-size: 0.7rem; background: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="universe">
-        <div class="black-hole"></div>
-        <div class="planet p1"></div>
-        <div class="planet p2"></div>
-    </div>
+    <div class="universe"><div class="black-hole"></div></div>
 
-    <header>
-        <h1>SPACETIME</h1>
-    </header>
+    <header><h1>SPACETIME</h1></header>
 
     <div class="container">
         <!-- ZAMANLAYICI -->
@@ -140,163 +75,155 @@
             <h2>GÖREV SÜRESİ</h2>
             <div id="timerDisplay">25:00</div>
             <div class="controls">
-                <input id="timerMinutes" type="number" value="25" style="width: 60px; text-align: center;">
-                <button id="mainBtn" onclick="toggleTimer()">Başlat</button>
-                <button onclick="resetTimer()">Sıfırla</button>
+                <input id="timerMinutes" type="number" value="25" style="width: 50px; text-align: center;">
+                <button id="mainBtn" onclick="toggleTimer()">BAŞLAT</button>
+                <button onclick="resetTimer()">SIFIRLA</button>
             </div>
-            
-            <div class="music-grid">
-                <button class="music-btn" id="rainBtn" onclick="playMusic('rain')">YAĞMUR</button>
-                <button class="music-btn" id="lofiBtn" onclick="playMusic('lofi')">LO-FI</button>
-                <button class="music-btn" id="spaceBtn" onclick="playMusic('space')">DERİN UZAY</button>
+            <div style="display:flex; gap:5px; justify-content:center;">
+                <button id="rainBtn" onclick="playMusic('rain')">YAĞMUR</button>
+                <button id="lofiBtn" onclick="playMusic('lofi')">LO-FI</button>
+                <button id="spaceBtn" onclick="playMusic('space')">UZAY</button>
+            </div>
+        </section>
+
+        <!-- VERİ ANALİZİ -->
+        <section>
+            <h2>VERİ ANALİZ MERKEZİ</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><span class="stat-val" id="dailyStat">0</span><span class="stat-label">GÜNLÜK</span></div>
+                <div class="stat-card"><span class="stat-val" id="weeklyStat">0</span><span class="stat-label">HAFTALIK</span></div>
+                <div class="stat-card"><span class="stat-val" id="monthlyStat">0</span><span class="stat-label">AYLIK</span></div>
+                <div class="stat-card"><span class="stat-val" id="yearlyStat">0</span><span class="stat-label">YILLIK</span></div>
             </div>
         </section>
 
         <!-- GÖREVLER -->
         <section>
-            <h2>STRATEJİK HEDEFLER</h2>
+            <h2>HEDEFLER</h2>
             <div class="input-group">
-                <input id="taskInput" placeholder="Sıradaki hedefin nedir?" onkeypress="if(event.key==='Enter') addTask()">
-                <button onclick="addTask()">Aktar</button>
+                <input id="taskInput" placeholder="Sıradaki hedef..." onkeypress="if(event.key==='Enter') addTask()">
+                <button onclick="addTask()">EKLE</button>
             </div>
             <ul id="taskList"></ul>
         </section>
     </div>
 
-    <!-- SES DOSYALARI (Örnek Telifsiz Linkler) -->
     <audio id="rainAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"></audio>
     <audio id="lofiAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
     <audio id="spaceAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
 
     <script>
-        let timerInterval;
-        let remainingSeconds = 25 * 60;
-        let isRunning = false;
+        let timerInterval, remainingSeconds = 1500, isRunning = false;
 
-        // --- ZAMANLAYICI SİSTEMİ ---
+        // --- ZAMANLAYICI ---
         function updateDisplay() {
             const m = Math.floor(remainingSeconds / 60);
             const s = remainingSeconds % 60;
-            document.getElementById("timerDisplay").innerText = 
-                `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+            document.getElementById("timerDisplay").innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
         }
 
         function toggleTimer() {
             const btn = document.getElementById("mainBtn");
             if (!isRunning) {
-                // BAŞLAT
-                isRunning = true;
-                btn.innerText = "Durdur";
-                btn.classList.add("pause-mode");
-                
-                // Eğer yeni bir değer girildiyse baştan başlatma kontrolü
-                if(remainingSeconds === 0 || remainingSeconds === 25*60) {
-                   remainingSeconds = parseInt(document.getElementById("timerMinutes").value) * 60;
-                }
-
+                isRunning = true; btn.innerText = "DURDUR"; btn.classList.add("pause-mode");
                 timerInterval = setInterval(() => {
-                    if (remainingSeconds > 0) {
-                        remainingSeconds--;
-                        updateDisplay();
-                    } else {
-                        clearInterval(timerInterval);
-                        alert("Görev Tamamlandı!");
-                        resetTimer();
-                    }
+                    if (remainingSeconds > 0) { remainingSeconds--; updateDisplay(); }
+                    else { clearInterval(timerInterval); alert("Süre bitti!"); resetTimer(); }
                 }, 1000);
             } else {
-                // DURDUR
-                isRunning = false;
-                btn.innerText = "Devam Et";
-                btn.classList.remove("pause-mode");
+                isRunning = false; btn.innerText = "DEVAM ET"; btn.classList.remove("pause-mode");
                 clearInterval(timerInterval);
             }
         }
 
         function resetTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            const btn = document.getElementById("mainBtn");
-            btn.innerText = "Başlat";
-            btn.classList.remove("pause-mode");
-            remainingSeconds = parseInt(document.getElementById("timerMinutes").value) * 60;
+            clearInterval(timerInterval); isRunning = false;
+            document.getElementById("mainBtn").innerText = "BAŞLAT";
+            remainingSeconds = document.getElementById("timerMinutes").value * 60;
             updateDisplay();
         }
 
-        // --- MÜZİK SİSTEMİ ---
-        function playMusic(type) {
-            const audios = ['rain', 'lofi', 'space'];
-            audios.forEach(id => {
-                const audio = document.getElementById(id + 'Audio');
-                const btn = document.getElementById(id + 'Btn');
-                if (id === type) {
-                    if (audio.paused) {
-                        audio.play();
-                        btn.classList.add('active');
-                    } else {
-                        audio.pause();
-                        btn.classList.remove('active');
-                    }
-                } else {
-                    audio.pause();
-                    document.getElementById(id + 'Btn').classList.remove('active');
-                }
-            });
+        // --- VERİ ANALİZ MOTORU ---
+        function getAnalytics() {
+            const tasks = JSON.parse(localStorage.getItem("spaceTasks") || "[]");
+            const now = new Date();
+            
+            const count = (days) => tasks.filter(t => {
+                if (!t.completed || !t.doneDate) return false;
+                const diff = (now - new Date(t.doneDate)) / (1000 * 60 * 60 * 24);
+                return diff <= days;
+            }).length;
+
+            document.getElementById("dailyStat").innerText = count(1);
+            document.getElementById("weeklyStat").innerText = count(7);
+            document.getElementById("monthlyStat").innerText = count(30);
+            document.getElementById("yearlyStat").innerText = count(365);
         }
 
-        // --- GÖREV YÖNETİMİ ---
-        window.onload = () => { loadTasks(); updateDisplay(); };
-
+        // --- GÖREVLER ---
         function addTask() {
             const inp = document.getElementById("taskInput");
             if (!inp.value.trim()) return;
-            const task = { text: inp.value.trim(), completed: false };
-            saveTask(task);
-            renderTask(task);
+            const task = { text: inp.value.trim(), completed: false, id: Date.now() };
+            const tasks = JSON.parse(localStorage.getItem("spaceTasks") || "[]");
+            tasks.push(task);
+            localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+            renderTasks();
             inp.value = "";
         }
 
-        function renderTask(task) {
-            const li = document.createElement("li");
-            if (task.completed) li.classList.add("completed");
-            li.innerHTML = `
-                <div class="task-content" onclick="toggleComplete(this)">
-                    <span class="check-icon">◈</span>
-                    <span class="task-text">${task.text}</span>
-                </div>
-                <button class="delete-btn" onclick="deleteTask(this)">SİL</button>
-            `;
-            document.getElementById("taskList").appendChild(li);
-        }
-
-        function toggleComplete(el) {
-            const li = el.parentElement;
-            const text = el.querySelector(".task-text").innerText;
-            li.classList.toggle("completed");
+        function toggleComplete(id) {
             let tasks = JSON.parse(localStorage.getItem("spaceTasks"));
-            tasks = tasks.map(t => { if(t.text === text) t.completed = !t.completed; return t; });
+            tasks = tasks.map(t => {
+                if(t.id === id) {
+                    t.completed = !t.completed;
+                    t.doneDate = t.completed ? new Date().toISOString() : null;
+                }
+                return t;
+            });
             localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+            renderTasks();
         }
 
-        function saveTask(t) {
-            let tasks = localStorage.getItem("spaceTasks") ? JSON.parse(localStorage.getItem("spaceTasks")) : [];
-            tasks.push(t);
-            localStorage.setItem("spaceTasks", JSON.stringify(tasks));
-        }
-
-        function loadTasks() {
-            let tasks = localStorage.getItem("spaceTasks") ? JSON.parse(localStorage.getItem("spaceTasks")) : [];
-            tasks.forEach(t => renderTask(t));
-        }
-
-        function deleteTask(btn) {
-            const li = btn.parentElement;
-            const text = li.querySelector(".task-text").innerText;
-            li.remove();
+        function deleteTask(id) {
             let tasks = JSON.parse(localStorage.getItem("spaceTasks"));
-            tasks = tasks.filter(t => t.text !== text);
+            tasks = tasks.filter(t => t.id !== id);
             localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+            renderTasks();
         }
+
+        function renderTasks() {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+            const tasks = JSON.parse(localStorage.getItem("spaceTasks") || "[]");
+            tasks.forEach(t => {
+                const li = document.createElement("li");
+                if (t.completed) li.classList.add("completed");
+                li.innerHTML = `
+                    <div class="task-content" onclick="toggleComplete(${t.id})">
+                        <span style="color:var(--neon-blue); margin-right:15px;">◈</span>
+                        <span class="task-text">${t.text}</span>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTask(${t.id})">SİL</button>
+                `;
+                list.appendChild(li);
+            });
+            getAnalytics();
+        }
+
+        // --- MÜZİK ---
+        function playMusic(type) {
+            ['rain','lofi','space'].forEach(id => {
+                const a = document.getElementById(id+'Audio');
+                const b = document.getElementById(id+'Btn');
+                if(id === type) { 
+                    if(a.paused){ a.play(); b.classList.add('active'); } 
+                    else { a.pause(); b.classList.remove('active'); }
+                } else { a.pause(); document.getElementById(id+'Btn').classList.remove('active'); }
+            });
+        }
+
+        window.onload = () => { renderTasks(); updateDisplay(); };
     </script>
 </body>
 </html>
